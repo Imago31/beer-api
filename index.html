@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goods</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .goods_window{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        .box{
+            width: 220px;
+            height: 300px;
+            border: 1px solid #00008B;
+            box-shadow: 1px 1px 10px #00008B ;
+            border-radius: 10px;
+            padding: 25px;
+            box-sizing: border-box;
+            margin-top: 20px;
+            background: #BDB76B;
+            background: #9ACD32;
+            background: #87CEEB;
+        }
+    </style>
+</head>
+<body>
+    <div class="goods_window"></div>
+<script>
+    var requestURL = 'https://api.punkapi.com/v2/beers';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function() {
+    let data = request.response;
+    console.log(data);
+
+    for( goods of data ){
+
+        let box = document.createElement("div");
+        box.classList.add('box');
+        document.querySelector('.goods_window').append(box);
+
+        let good_img = document.createElement("img");
+        good_img.classList.add('good_img');
+        good_img.setAttribute('src', goods.image_url)
+        good_img.style="width: 20px;border-radius: 6px"
+        box.append(good_img);
+
+        let good_name = document.createElement("p");
+        good_name.textContent = goods.name;
+        good_name.classList.add('good_name');
+        good_name.style="color: #FF0000;font-size: 25px;margin-top: 10px;"
+        box.append(good_name);
+
+        let good_tagline = document.createElement("p");
+        good_tagline.textContent = goods.tagline;
+        good_tagline.classList.add('good_tagline');
+        good_tagline.style="margin-top: 10px;color: #0000FF";
+        box.append(good_tagline);
+
+        let good_abv = document.createElement("p");
+        good_abv.textContent = 'Крепость - ' + goods.abv;
+        good_abv.classList.add('good_abv');
+        good_abv.style="margin-top: 10px;color: #FF4500";
+        box.append(good_abv);
+
+        let good_first_brewed = document.createElement("p");
+        good_first_brewed.textContent = 'Изготовлен - ' + goods.first_brewed;
+        good_first_brewed.classList.add('good_first_brewed');
+        good_first_brewed.style="margin-top: 10px;color: #008000";
+        box.append(good_first_brewed);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
